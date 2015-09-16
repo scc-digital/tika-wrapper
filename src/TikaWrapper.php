@@ -47,6 +47,11 @@ class TikaWrapper implements TikaWrapperInterface
      */
     protected $outputEncoding   = 'UTF8';
 
+    public function __construct()
+    {
+        $this->binary = __DIR__ . '/../' . $this->binary;
+    }
+
     /**
      * @return string
      */

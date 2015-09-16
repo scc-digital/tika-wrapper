@@ -54,7 +54,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
 
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc.pdf'));
 
-        $expectedCmd = "'" . TikaWrapper::JAVA_BINARY . "' '-jar' '" . TikaWrapperInterface::TIKA_BINARY . "' ";
+        $expectedCmd = "'" . $tw->getJavaBinary() . "' '-jar' '" . $tw->getBinary() . "' ";
         $expectedCmd .= "'--text' '--encoding=UTF8' '" . $tw->getFile()->getPathname() . "'";
 
         $cmp = $tw->buildCommand();
@@ -107,6 +107,4 @@ class TikaTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('Jfx\\Tika\\Exception\\UnsupportedOutputFormatException');
         $tw->setOutputFormat('PLOPO');
     }
-
-
 }

@@ -16,7 +16,7 @@ interface TikaWrapperInterface
 {
     const DEFAULT_TIMEOUT   = 60;
     const JAVA_BINARY       = 'java';
-    const TIKA_BINARY       = __DIR__ . '/../vendor/tika/tika/tika-app-1.10.jar';
+    const TIKA_BINARY       = 'vendor/tika/tika/tika-app-1.10.jar';
 
     const OUTPUT_FORMAT_XML             = 'xml'; //           Output XHTML content (default)
     const OUTPUT_FORMAT_HTML            = 'html'; //          Output HTML content
