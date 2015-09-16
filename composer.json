@@ -1,0 +1,41 @@
+{
+    "name": "jerome-fix/tika-wrapper",
+    "type": "library",
+    "version": "0.1.0",
+    "description": "PHP Wrapper for Apache Tika (using the tika-app jar)",
+    "keywords": ["tika", "apache tika", "pdf", "doc", "docx", "odt", "text processing"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jérôme FIX",
+            "email": "jerome.fix@zapoyyok.info",
+            "homepage": "http://www.zapoyok.info"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "tika/tika",
+                "version": "1.10",
+                "dist": {
+                    "type": "file",
+                    "url": "http://apache.mirrors.ovh.net/ftp.apache.org/dist/tika/tika-app-1.10.jar",
+                    "reference": "1.10"
+                }
+            }
+        }
+    ],
+
+    "require": {
+        "php": ">=5.5",
+        "symfony/process": "2.7.*",
+        "tika/tika": "~1.10"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.0"
+    },
+    "autoload": {
+        "psr-4": { "Jfx\\Tika\\": "src/" }
+    }
+}

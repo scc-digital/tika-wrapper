@@ -1,0 +1,17 @@
+language: php
+
+php:
+  - 5.5
+  - hhvm
+
+
+before_script:
+  - composer  selfupdate
+  - composer install --dev --prefer-source
+  - sudo apt-get update -qq
+
+script: phpunit
+
+matrix:
+  allow_failures:
+    - php: hhvm
