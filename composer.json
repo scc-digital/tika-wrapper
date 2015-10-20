@@ -1,5 +1,5 @@
 {
-    "name": "jerome-fix/tika-wrapper",
+    "name": "zapoyok/tika-wrapper",
     "type": "library",
     "version": "0.1.0",
     "description": "PHP Wrapper for Apache Tika (using the tika-app jar)",
@@ -36,6 +36,6 @@
         "phpunit/phpunit": "~4.0"
     },
     "autoload": {
-        "psr-4": { "Jfx\\Tika\\": "src/" }
+        "psr-4": { "Zapoyok\\Tika\\": "src/" }
     }
 }

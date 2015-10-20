@@ -3,20 +3,20 @@
 // CommandExeption.php
 
 /**
- * This file is part of the Jfx project.
+ * This file is part of the Zapoyok project.
  *
  * (c) Jérôme Fix <jerome.fix@zapoyok.info>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Jfx\Tika\Exception;
+namespace Zapoyok\Tika\Exception;
 
 use Symfony\Component\Process\Process;
 
 class CommandException extends \RuntimeException
 {
-    const ERROR_ENCODING   = 'java.io.UnsupportedEncodingException';
+    const ERROR_ENCODING = 'java.io.UnsupportedEncodingException';
 
     public function __construct(Process $process)
     {

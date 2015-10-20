@@ -1,19 +1,19 @@
 <?php
 
 /**
- * This file is part of the Jfx project.
+ * This file is part of the Zapoyok project.
  *
  * (c) Jérôme Fix <jerome.fix@zapoyok.info>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Jfx\Tika\tests;
+namespace Zapoyok\Tika\tests;
 
 require __DIR__ . '/bootstrap.php';
 
-use Jfx\Tika\TikaWrapper;
-use Jfx\Tika\TikaWrapperInterface;
+use Zapoyok\Tika\TikaWrapper;
+use Zapoyok\Tika\TikaWrapperInterface;
 
 class TikaTest extends \PHPUnit_Framework_TestCase
 {
@@ -75,7 +75,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
     {
         $tw = new TikaWrapper();
 
-        $this->setExpectedException('Jfx\\Tika\\Exception\\InvalidFileException');
+        $this->setExpectedException('Zapoyok\\Tika\\Exception\\InvalidFileException');
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc_fake.pdf'));
     }
 
@@ -84,7 +84,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
         $tw = new TikaWrapper();
 
         @chmod(__DIR__ . '/files/doc_unreadable.pdf', 0000);
-        $this->setExpectedException('Jfx\\Tika\\Exception\\InvalidFileException');
+        $this->setExpectedException('Zapoyok\\Tika\\Exception\\InvalidFileException');
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc_unreadable.pdf'));
         @chmod(__DIR__ . '/files/doc_unreadable.pdf', 0644);
     }
@@ -95,7 +95,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc.pdf'));
         $tw->setOutputEncoding('PLOPO');
 
-        $this->setExpectedException('Jfx\\Tika\\Exception\\Command\\UnsupportedEncodingException');
+        $this->setExpectedException('Zapoyok\\Tika\\Exception\\Command\\UnsupportedEncodingException');
         $tw->extract();
     }
 
@@ -104,7 +104,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
         $tw = new TikaWrapper();
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc.pdf'));
 
-        $this->setExpectedException('Jfx\\Tika\\Exception\\UnsupportedOutputFormatException');
+        $this->setExpectedException('Zapoyok\\Tika\\Exception\\UnsupportedOutputFormatException');
         $tw->setOutputFormat('PLOPO');
     }
 }

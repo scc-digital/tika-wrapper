@@ -12,7 +12,7 @@
          bootstrap="tests/bootstrap.php"
 >
     <testsuites>
-        <testsuite name="Jfx OCR ~ Test Suite">
+        <testsuite name="Zapoyok OCR ~ Test Suite">
             <directory>./tests/</directory>
         </testsuite>
     </testsuites>

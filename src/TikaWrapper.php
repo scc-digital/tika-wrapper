@@ -3,16 +3,16 @@
 // TikaWrapper.php
 
 /**
- * This file is part of the Jfx project.
+ * This file is part of the Zapoyok project.
  *
  * (c) Jérôme Fix <jerome.fix@zapoyok.info>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Jfx\Tika;
+namespace Zapoyok\Tika;
 
-use Jfx\Tika\Exception\CommandException;
+use Zapoyok\Tika\Exception\CommandException;
 use Symfony\Component\Process\ProcessBuilder;
 
 class TikaWrapper implements TikaWrapperInterface
@@ -20,17 +20,17 @@ class TikaWrapper implements TikaWrapperInterface
     /**
      * @var string
      */
-    protected $javaBinary   = self::JAVA_BINARY;
+    protected $javaBinary = self::JAVA_BINARY;
 
     /**
      * @var string
      */
-    protected $binary       = self::TIKA_BINARY;
+    protected $binary = self::TIKA_BINARY;
 
     /**
      * @var int
      */
-    protected $timeout      = self::DEFAULT_TIMEOUT;
+    protected $timeout = self::DEFAULT_TIMEOUT;
 
     /**
      * @var \SplFileInfo
@@ -40,12 +40,12 @@ class TikaWrapper implements TikaWrapperInterface
     /**
      * @var string
      */
-    protected $outputFormat     = self::OUTPUT_FORMAT_TEXT;
+    protected $outputFormat = self::OUTPUT_FORMAT_TEXT;
 
     /**
      * @var string
      */
-    protected $outputEncoding   = 'UTF8';
+    protected $outputEncoding = 'UTF8';
 
     public function __construct()
     {
@@ -183,7 +183,7 @@ class TikaWrapper implements TikaWrapperInterface
         $arguments[] = '--' . $this->getOutputFormat();
 
         // Output Encoding
-        $arguments[] =  sprintf('--encoding=%s',  $this->getOutputEncoding());
+        $arguments[] = sprintf('--encoding=%s',  $this->getOutputEncoding());
 
         // Document
         $arguments[] = $this->getFile()->getPathname();
@@ -202,7 +202,7 @@ class TikaWrapper implements TikaWrapperInterface
     /**
      * @param \SplFileInfo $file
      *
-     * @throws \Jfx\Tika\Exception\InvalidFileException
+     * @throws \Zapoyok\Tika\Exception\InvalidFileException
      *
      * @return $this
      */
