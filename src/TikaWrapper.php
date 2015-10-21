@@ -12,6 +12,7 @@
  */
 namespace Zapoyok\Tika;
 
+use Symfony\Component\VarDumper\VarDumper;
 use Zapoyok\Tika\Exception\CommandException;
 use Symfony\Component\Process\ProcessBuilder;
 
@@ -46,11 +47,6 @@ class TikaWrapper implements TikaWrapperInterface
      * @var string
      */
     protected $outputEncoding = 'UTF8';
-
-    public function __construct()
-    {
-        $this->binary = __DIR__ . '/../' . $this->binary;
-    }
 
     /**
      * @return string
