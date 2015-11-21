@@ -12,9 +12,10 @@
  */
 namespace Zapoyok\Tika;
 
-use Symfony\Component\VarDumper\VarDumper;
-use Zapoyok\Tika\Exception\CommandException;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 use Symfony\Component\Process\ProcessBuilder;
+use Zapoyok\Tika\Exception\CommandException;
 
 class TikaWrapper implements TikaWrapperInterface
 {
@@ -47,6 +48,29 @@ class TikaWrapper implements TikaWrapperInterface
      * @var string
      */
     protected $outputEncoding = 'UTF8';
+
+    /**
+     * @var LoggerInterface
+     */
+    protected $logger;
+
+    public function __construct()
+    {
+        $this->logger = new NullLogger();
+    }
+
+    /**
+     * @param \Psr\Log\LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    public function getLogger()
+    {
+        return $this->logger;
+    }
 
     /**
      * @return string
@@ -238,6 +262,8 @@ class TikaWrapper implements TikaWrapperInterface
         $builder->getProcess()->getCommandLine();
         $process->setTimeout($this->timeout);
         $process->run();
+
+        $this->logger->debug($process->getCommandLine());
 
         if (!$process->isSuccessful()) {
             throw CommandException::factory($process);

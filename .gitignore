@@ -1,4 +1,3 @@
-.php_cs*
-/composer.lock
+.php_cs.cache
 /vendor
 /build

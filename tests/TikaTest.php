@@ -31,6 +31,10 @@ class TikaTest extends \PHPUnit_Framework_TestCase
         $tw->setJavaBinary('java');
         $this->assertEquals('java', $tw->getJavaBinary());
 
+        $logger = $this->getMock('Monolog\Logger', [], ['foo']);
+        $tw->setLogger($logger);
+        $this->assertInstanceOf('Psr\\Log\\LoggerInterface', $tw->getLogger());
+
         $this->assertEquals('UTF8', $tw->getOutputEncoding());
 
         $tw->setOutputEncoding('ISO-8859-15');
