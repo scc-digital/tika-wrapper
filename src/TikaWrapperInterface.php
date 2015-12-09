@@ -28,4 +28,24 @@ interface TikaWrapperInterface
     const OUTPUT_FORMAT_JSONRECURSIVE = 'jsonRecursive'; // Output metadata and content from all
     const OUTPUT_FORMAT_LANGUAGE      = 'language'; //      Output only language
     const OUTPUT_FORMAT_DETECT        = 'detect'; //        Detect document type
+
+
+    /**
+     * @param \SplFileInfo $file
+     *
+     * @throws \Zapoyok\Tika\Exception\InvalidFileException
+     *
+     * @return $this
+     */
+    public function setFile(\SplFileInfo $file);
+
+    /**
+     * @param string $outputFormat
+     *
+     * @return TikaWrapper
+     */
+    public function setOutputFormat($outputFormat);
+
+    public function extract();
+
 }
