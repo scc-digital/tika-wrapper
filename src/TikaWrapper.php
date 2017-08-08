@@ -269,7 +269,7 @@ class TikaWrapper implements TikaWrapperInterface
             throw CommandException::factory($process);
         }
 
-        $output = $process->getOutput() ? $process->getOutput() : $process->getErrorOutput();
+        $output = $process->getOutput() ?:  null;  
 
         if (preg_match('/produced error: Exception in thread "main"/', $output)) {
             throw CommandException::factory($process);
