@@ -1,7 +1,7 @@
 {
     "name": "zapoyok/tika-wrapper",
     "type": "library",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "description": "PHP Wrapper for Apache Tika (using the tika-app jar)",
     "keywords": ["tika", "apache tika", "pdf", "doc", "docx", "odt", "text processing"],
     "license": "MIT",
@@ -14,12 +14,11 @@
     ],
 
     "require": {
-        "php": ">=5.5",
-        "symfony/process": "^2.7|^3.0"
+        "php": ">=7.4",
+        "symfony/process": "^3.0|^4.4|^5.4"
     },
     "require-dev": {
-        "phpunit/phpunit": "~4.0",
-        "monolog/monolog": "^1.17"
+        "phpunit/phpunit": "^9.5"
 
     },
     "autoload": {
