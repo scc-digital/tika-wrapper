@@ -1,6 +1,15 @@
 <?php
 
-// TikaWrapper.php
+declare(strict_types=1);
+
+/*
+ * This file is part of the Zapoyok project.
+ *
+ * (c) Jérôme Fix <jerome.fix@zapoyok.info>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 /**
  * This file is part of the Zapoyok project.
@@ -10,16 +19,18 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Zapoyok\Tika;
 
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
-
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Process\Process;
 use Zapoyok\Tika\Exception\CommandException;
 
-class TikaWrapper implements TikaWrapperInterface
+class TikaWrapper implements TikaWrapperInterface, LoggerAwareInterface
 {
+    use LoggerAwareTrait;
+
     /**
      * @var string
      */
@@ -50,85 +61,47 @@ class TikaWrapper implements TikaWrapperInterface
      */
     protected $outputEncoding = 'UTF8';
 
-    /**
-     * @var LoggerInterface
-     */
-    protected $logger;
-
-    public function __construct()
-    {
-        $this->logger = new NullLogger();
-    }
-
-    /**
-     * @param \Psr\Log\LoggerInterface $logger
-     */
-    public function setLogger(LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-    }
-
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-
-    /**
-     * @return string
-     */
-    public function getJavaBinary()
+    public function getJavaBinary(): string
     {
         return $this->javaBinary;
     }
 
     /**
-     * @param string $javaBinary
-     *
      * @return TikaWrapper
      */
-    public function setJavaBinary($javaBinary)
+    public function setJavaBinary(string $javaBinary): self
     {
         $this->javaBinary = $javaBinary;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOutputEncoding()
+    public function getOutputEncoding(): string
     {
         return $this->outputEncoding;
     }
 
     /**
-     * @param string $outputEncoding
-     *
      * @return TikaWrapper
      */
-    public function setOutputEncoding($outputEncoding)
+    public function setOutputEncoding(string $outputEncoding): self
     {
         $this->outputEncoding = $outputEncoding;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getOutputFormat()
+    public function getOutputFormat(): string
     {
         return $this->outputFormat;
     }
 
     /**
-     * @param string $outputFormat
-     *
      * @return TikaWrapper
      */
-    public function setOutputFormat($outputFormat)
+    public function setOutputFormat(string $outputFormat): self
     {
-        if (!in_array($outputFormat, self::getOutputFormats(), true)) {
+        if (!\in_array($outputFormat, self::getOutputFormats(), true)) {
             throw new Exception\UnsupportedOutputFormatException(sprintf('The "%s" format is not valid, use one of these: %s', $outputFormat, implode(', ', self::getOutputFormats())));
         }
 
@@ -140,41 +113,30 @@ class TikaWrapper implements TikaWrapperInterface
     /**
      * Options.
      */
-
-    /**
-     * @return string
-     */
-    public function getBinary()
+    public function getBinary(): string
     {
         return $this->binary;
     }
 
     /**
-     * @param string $binary
-     *
      * @return TikaWrapper
      */
-    public function setBinary($binary)
+    public function setBinary(string $binary): self
     {
         $this->binary = $binary;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getTimeout()
+    public function getTimeout(): int
     {
         return $this->timeout;
     }
 
     /**
-     * @param int $timeout
-     *
      * @return TikaWrapper
      */
-    public function setTimeout($timeout)
+    public function setTimeout(int $timeout): self
     {
         $this->timeout = $timeout;
 
@@ -185,10 +147,9 @@ class TikaWrapper implements TikaWrapperInterface
     {
         $arguments = $this->buildCommandArguments();
 
-        \array_unshift($arguments, $this->binary);
-        \array_unshift($arguments, '-jar');
-        \array_unshift($arguments, $this->javaBinary);
-
+        array_unshift($arguments, $this->binary);
+        array_unshift($arguments, '-jar');
+        array_unshift($arguments, $this->javaBinary);
 
         return (new Process($arguments))->getCommandLine();
     }
@@ -201,7 +162,7 @@ class TikaWrapper implements TikaWrapperInterface
         $arguments[] = '--' . $this->getOutputFormat();
 
         // Output Encoding
-        $arguments[] = sprintf('--encoding=%s',  $this->getOutputEncoding());
+        $arguments[] = sprintf('--encoding=%s', $this->getOutputEncoding());
 
         // Document
         $arguments[] = $this->getFile()->getPathname();
@@ -209,22 +170,17 @@ class TikaWrapper implements TikaWrapperInterface
         return $arguments;
     }
 
-    /**
-     * @return \SplFileInfo
-     */
-    public function getFile()
+    public function getFile(): \SplFileInfo
     {
         return $this->file;
     }
 
     /**
-     * @param \SplFileInfo $file
-     *
      * @throws \Zapoyok\Tika\Exception\InvalidFileException
      *
      * @return $this
      */
-    public function setFile(\SplFileInfo $file)
+    public function setFile(\SplFileInfo $file): self
     {
         if (!$file->isFile()) {
             throw new Exception\InvalidFileException(sprintf('The supplied file (« %s ») does not exist.', $file->getPathname()));
@@ -242,17 +198,13 @@ class TikaWrapper implements TikaWrapperInterface
     /**
      * Execute command and return output.
      *
-     * @param array $arguments
-     *
      * @throws \Exception
-     *
-     * @return string
      */
-    protected function execute(array $arguments)
+    protected function execute(array $arguments): string
     {
-        \array_unshift($arguments, $this->binary);
-        \array_unshift($arguments, '-jar');
-        \array_unshift($arguments, $this->javaBinary);
+        array_unshift($arguments, $this->binary);
+        array_unshift($arguments, '-jar');
+        array_unshift($arguments, $this->javaBinary);
 
         $process = new Process($arguments);
         $process->setTimeout($this->timeout);
@@ -264,7 +216,7 @@ class TikaWrapper implements TikaWrapperInterface
             throw CommandException::factory($process);
         }
 
-        $output = $process->getOutput() ?:  null;  
+        $output = $process->getOutput() ?: '';
 
         if (preg_match('/produced error: Exception in thread "main"/', $output)) {
             throw CommandException::factory($process);
@@ -276,7 +228,7 @@ class TikaWrapper implements TikaWrapperInterface
     final public function extract(): string
     {
         $arguments = $this->buildCommandArguments();
-        $output    = $this->execute($arguments);
+        $output = $this->execute($arguments);
 
         return trim($output);
     }
@@ -284,16 +236,16 @@ class TikaWrapper implements TikaWrapperInterface
     public static function getOutputFormats(): array
     {
         return [
-                self::OUTPUT_FORMAT_XML,
-                self::OUTPUT_FORMAT_HTML,
-                self::OUTPUT_FORMAT_TEXT,
-                self::OUTPUT_FORMAT_TEXT_MAIN,
-                self::OUTPUT_FORMAT_METADATA,
-                self::OUTPUT_FORMAT_JSON,
-                self::OUTPUT_FORMAT_XMP ,
-                self::OUTPUT_FORMAT_JSONRECURSIVE,
-                self::OUTPUT_FORMAT_LANGUAGE ,
-                self::OUTPUT_FORMAT_DETECT,
+            self::OUTPUT_FORMAT_XML,
+            self::OUTPUT_FORMAT_HTML,
+            self::OUTPUT_FORMAT_TEXT,
+            self::OUTPUT_FORMAT_TEXT_MAIN,
+            self::OUTPUT_FORMAT_METADATA,
+            self::OUTPUT_FORMAT_JSON,
+            self::OUTPUT_FORMAT_XMP,
+            self::OUTPUT_FORMAT_JSONRECURSIVE,
+            self::OUTPUT_FORMAT_LANGUAGE,
+            self::OUTPUT_FORMAT_DETECT,
         ];
     }
 }

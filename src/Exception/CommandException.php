@@ -1,6 +1,15 @@
 <?php
 
-// CommandExeption.php
+declare(strict_types=1);
+
+/*
+ * This file is part of the Zapoyok project.
+ *
+ * (c) Jérôme Fix <jerome.fix@zapoyok.info>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 
 /**
  * This file is part of the Zapoyok project.
@@ -10,13 +19,14 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Zapoyok\Tika\Exception;
 
 use Symfony\Component\Process\Process;
 
 class CommandException extends \RuntimeException
 {
-    const ERROR_ENCODING = 'java.io.UnsupportedEncodingException';
+    public const ERROR_ENCODING = 'java.io.UnsupportedEncodingException';
 
     public function __construct(Process $process)
     {
@@ -35,8 +45,8 @@ class CommandException extends \RuntimeException
 
         if (false !== stripos($error, self::ERROR_ENCODING)) {
             return new Command\UnsupportedEncodingException($process);
-        } else {
-            return new self($process);
         }
+
+        return new self($process);
     }
 }
