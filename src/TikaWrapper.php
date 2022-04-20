@@ -14,7 +14,8 @@ namespace Zapoyok\Tika;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
-use Symfony\Component\Process\ProcessBuilder;
+
+use Symfony\Component\Process\Process;
 use Zapoyok\Tika\Exception\CommandException;
 
 class TikaWrapper implements TikaWrapperInterface
@@ -127,7 +128,7 @@ class TikaWrapper implements TikaWrapperInterface
      */
     public function setOutputFormat($outputFormat)
     {
-        if (!in_array($outputFormat, self::getOutputFormats())) {
+        if (!in_array($outputFormat, self::getOutputFormats(), true)) {
             throw new Exception\UnsupportedOutputFormatException(sprintf('The "%s" format is not valid, use one of these: %s', $outputFormat, implode(', ', self::getOutputFormats())));
         }
 
@@ -188,14 +189,11 @@ class TikaWrapper implements TikaWrapperInterface
         \array_unshift($arguments, '-jar');
         \array_unshift($arguments, $this->javaBinary);
 
-        $builder = ProcessBuilder::create($arguments);
 
-        $process = $builder->getProcess();
-
-        return $process->getCommandLine();
+        return (new Process($arguments))->getCommandLine();
     }
 
-    public function buildCommandArguments()
+    public function buildCommandArguments(): array
     {
         $arguments = [];
 
@@ -248,7 +246,7 @@ class TikaWrapper implements TikaWrapperInterface
      *
      * @throws \Exception
      *
-     * @return array
+     * @return string
      */
     protected function execute(array $arguments)
     {
@@ -256,10 +254,7 @@ class TikaWrapper implements TikaWrapperInterface
         \array_unshift($arguments, '-jar');
         \array_unshift($arguments, $this->javaBinary);
 
-        $builder = ProcessBuilder::create($arguments);
-
-        $process = $builder->getProcess();
-        $builder->getProcess()->getCommandLine();
+        $process = new Process($arguments);
         $process->setTimeout($this->timeout);
         $process->run();
 
@@ -278,7 +273,7 @@ class TikaWrapper implements TikaWrapperInterface
         return $output;
     }
 
-    final public function extract()
+    final public function extract(): string
     {
         $arguments = $this->buildCommandArguments();
         $output    = $this->execute($arguments);
@@ -286,7 +281,7 @@ class TikaWrapper implements TikaWrapperInterface
         return trim($output);
     }
 
-    public static function getOutputFormats()
+    public static function getOutputFormats(): array
     {
         return [
                 self::OUTPUT_FORMAT_XML,
