@@ -22,6 +22,6 @@
 
     },
     "autoload": {
-        "psr-4": { "Zapoyok\\Tika\\": "src/" }
+        "psr-4": { "Scc\\Tika\\": "src/" }
     }
 }

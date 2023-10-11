@@ -20,9 +20,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Zapoyok\Tika\Exception\Command;
+namespace Scc\Tika\Exception\Command;
 
-use Zapoyok\Tika\Exception\CommandException;
+use Scc\Tika\Exception\CommandException;
 
 class UnsupportedEncodingException extends CommandException
 {

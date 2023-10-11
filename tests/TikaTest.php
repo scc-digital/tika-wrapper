@@ -8,12 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace Zapoyok\Tika\tests;
+namespace Scc\Tika\tests;
 
 require __DIR__ . '/bootstrap.php';
 
-use Zapoyok\Tika\TikaWrapper;
-use Zapoyok\Tika\TikaWrapperInterface;
+use Psr\Log\LoggerInterface;
+use Scc\Tika\Exception\Command\UnsupportedEncodingException;
+use Scc\Tika\Exception\InvalidFileException;
+use Scc\Tika\Exception\UnsupportedOutputFormatException;
+use Scc\Tika\TikaWrapper;
+use Scc\Tika\TikaWrapperInterface;
 
 class TikaTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +37,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
 
         $logger = $this->getMock('Monolog\Logger', [], ['foo']);
         $tw->setLogger($logger);
-        $this->assertInstanceOf('Psr\\Log\\LoggerInterface', $tw->getLogger());
+        $this->assertInstanceOf(LoggerInterface::class, $tw->getLogger());
 
         $this->assertEquals('UTF8', $tw->getOutputEncoding());
 
@@ -79,7 +83,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
     {
         $tw = new TikaWrapper();
 
-        $this->setExpectedException('Zapoyok\\Tika\\Exception\\InvalidFileException');
+        $this->setExpectedException(InvalidFileException::class);
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc_fake.pdf'));
     }
 
@@ -88,7 +92,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
         $tw = new TikaWrapper();
 
         @chmod(__DIR__ . '/files/doc_unreadable.pdf', 0000);
-        $this->setExpectedException('Zapoyok\\Tika\\Exception\\InvalidFileException');
+        $this->setExpectedException(InvalidFileException::class);
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc_unreadable.pdf'));
         @chmod(__DIR__ . '/files/doc_unreadable.pdf', 0644);
     }
@@ -99,7 +103,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc.pdf'));
         $tw->setOutputEncoding('PLOPO');
 
-        $this->setExpectedException('Zapoyok\\Tika\\Exception\\Command\\UnsupportedEncodingException');
+        $this->setExpectedException(UnsupportedEncodingException::class);
         $tw->extract();
     }
 
@@ -108,7 +112,7 @@ class TikaTest extends \PHPUnit_Framework_TestCase
         $tw = new TikaWrapper();
         $tw->setFile(new \SplFileInfo(__DIR__ . '/files/doc.pdf'));
 
-        $this->setExpectedException('Zapoyok\\Tika\\Exception\\UnsupportedOutputFormatException');
+        $this->setExpectedException(UnsupportedOutputFormatException::class);
         $tw->setOutputFormat('PLOPO');
     }
 }

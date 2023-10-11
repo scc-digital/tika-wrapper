@@ -20,7 +20,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Zapoyok\Tika\Exception;
+namespace Scc\Tika\Exception;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {

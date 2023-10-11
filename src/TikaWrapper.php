@@ -20,12 +20,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Zapoyok\Tika;
+namespace Scc\Tika;
 
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Symfony\Component\Process\Process;
-use Zapoyok\Tika\Exception\CommandException;
+use Scc\Tika\Exception\CommandException;
 
 class TikaWrapper implements TikaWrapperInterface, LoggerAwareInterface
 {
